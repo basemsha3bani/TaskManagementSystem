@@ -1,0 +1,45 @@
+﻿@model TaskManagementSystem.Areas.Admin.ViewModel.ProjectReportDataViewModel
+@{
+    ViewData["Title"] = "ProjectReport";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ProjectReport</h2>
+
+<form id="frmSearchProjects" method="post" action="@Url.Action("RetreiveProjectReportData","Admin/Reports")">
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <label >Project name</label>
+            @Html.TextBoxFor(tb => tb.SearchExpression, new { @class = "form-control mb-2", id = "inlineFormInput" })
+        </div>
+
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2" 
+                    @*onclick="return submitForm()"*@
+                    >Search</button>
+        </div>
+
+    </div>
+</form> 
+@Html.Partial("ProjectReportDataView", Model.ProjectReportData)
+@section Scripts {
+
+    <script>
+        $(function () {
+
+            @*var formAction = "@Url.Action("RetreiveProjectReportData","Admin/Reports")"
+            $("#frmSearchProjects").attr("action", formAction)*@
+
+        });
+        function submitForm() {
+
+
+            $("#frmSearchProjects").submit();
+
+            return true
+
+        }
+
+    </script>
+}

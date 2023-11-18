@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>d4b587cc-e203-4192-927c-4537d62b05ce</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="LocalizationResources\**" />
+    <Content Remove="LocalizationResources\**" />
+    <EmbeddedResource Remove="LocalizationResources\**" />
+    <None Remove="LocalizationResources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20191103114049_McreateDb.cs" />
+    <Compile Remove="Migrations\20191103114049_McreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20191217134717_MChangeProjectNameFieldName.cs" />
+    <Compile Remove="Migrations\20191217134717_MChangeProjectNameFieldName.Designer.cs" />
+    <Compile Remove="Migrations\20200224062418_MChangeTaskPrimaryKeyType.cs" />
+    <Compile Remove="Migrations\20200224062418_MChangeTaskPrimaryKeyType.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Areas\Admin\Resources\ProjectResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProjectResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Projects\CloseProject.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Areas\Admin\Resources\ProjectResource.ar-JO.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Areas\Admin\Resources\ProjectResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

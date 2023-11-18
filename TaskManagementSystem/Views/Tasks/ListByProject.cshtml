@@ -1,0 +1,142 @@
+﻿@model List<TaskManagementSystem.Models.Task>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int ProjectId = 0;
+    var CurrentUserId = ViewBag.CurrentUserId;
+    bool CanDeleteTask = (bool)ViewBag.IsCurrentUserAdmin;
+    bool CanAddComment = false;
+
+}
+
+
+
+<hr />
+<div class="text-danger">@Html.ValidationSummary()</div>
+@*<input value="@Model.Id" class="form-control" type="hidden" id="hdnProjectId" />*@
+
+@if (Model.Count > 0)
+{
+    ProjectId = (int)Model[0].Project_Id;
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project:@ViewBag.ProjectName
+            </th>
+            <th>
+                Starting Date:@ViewBag.StartingDate
+            </th>
+            <th>
+                Ending Date:@ViewBag.EndingDate
+            </th>
+        </tr>
+        <tr>
+
+            <td>
+                <a href="javascript:;" onclick="window.location.href='@Url.Action("Create","Tasks")?ProjectId=@ProjectId'">Create new task</a>
+
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Task name
+            </th>
+            <th>
+                Starting date
+            </th>
+            <th>
+                Ending date
+            </th>
+
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model[0].EndDate == null)
+    {
+        Model.Clear();
+    }
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaskName)
+                </td>
+
+                <td>
+                    @Html.Label("", item.StartDate.ToString("dd/MM/yyyy"))
+                </td>
+
+
+                <td>
+                    @Html.Label("", ((DateTime)item.EndDate).ToString("dd/MM/yyyy"))
+                </td>
+                @{
+                    CanDeleteTask = CanDeleteTask && item.Comments.Count == 0;
+                    if (CanDeleteTask)
+                    {
+                        string DeleteTaskPath = @Url.Action("Delete", "Tasks").ToString() + "?Id=" + item.Id.ToString() + "&ProjectId=" + ProjectId.ToString();
+                        <td>
+
+                            <button onclick="handleDelete('@DeleteTaskPath')" class="btn btn-default">Delete</button>
+
+                        </td>
+
+
+                    }
+                    CanAddComment = item.Employee_AssignedTo == CurrentUserId;
+                    if (CanAddComment)
+                    {
+                        <td>
+
+                            <a class="btn btn-default" href="@string.Concat(@Url.Action("ViewTask", "Tasks").ToString(),"?TaskId="+item.Id.ToString())">AddComment</a>
+
+                        </td>
+                    }
+                    if(item.Comments.Count>0 &&item.Employee_AssignedTo == CurrentUserId)
+                    {
+                        <td>
+
+                            <a class="btn btn-default" href="@string.Concat(@Url.Action("CloseTask", "Tasks").ToString(),"?TaskId="+item.Id.ToString())">Close Task</a>
+
+                        </td>
+                    }
+                }
+
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Index", "Admin/Projects")">Back</a>
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#StartingDate").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#EndingDate").datepicker({ dateFormat: 'dd-mm-yy' });
+            var formAction = "@Url.Action("EditProject", "Admin/Projects")"
+            $("#formEditProject").attr("action", formAction)
+
+        });
+        function submitForm() {
+
+
+            $("#formEditProject").submit();
+
+            return true
+
+        }
+
+    </script>
+}

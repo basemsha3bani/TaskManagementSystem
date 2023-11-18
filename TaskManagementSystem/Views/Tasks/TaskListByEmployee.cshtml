@@ -1,0 +1,72 @@
+﻿@model List<TaskManagementSystem.Models.ViewModels.TaskViewModel>
+@{
+    if (!ViewBag.IsCurrentUserAdmin)
+    {
+        Layout = "~/Areas/Employee/Views/Shared/EmployeeLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    }
+    int ProjectId = 0;
+
+
+}
+<table class="table">
+    <thead>
+        
+        
+        <tr>
+            <th>
+                Task name
+            </th>
+            <th>
+                Starting date
+            </th>
+            <th>
+                Ending date
+            </th>
+
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   <a href="@string.Concat(Url.Action("ViewTask","Tasks"),"?TaskId="+item.Id.ToString())">@item.TaskName</a>
+                </td>
+
+                <td>
+                    @Html.Label("", item.StartDate)
+                </td>
+
+
+                <td>
+                    @Html.Label("", (item.EndDate))
+                </td>
+                
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>

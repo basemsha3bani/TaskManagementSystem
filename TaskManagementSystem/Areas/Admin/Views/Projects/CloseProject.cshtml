@@ -1,0 +1,68 @@
+﻿@model TaskManagementSystem.Areas.Admin.ViewModel.CloseProjectViewModel
+
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create Project </h2>
+
+
+<hr />
+<div class="text-danger">@Html.ValidationSummary()</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="formCloseProject" method="post" action="@Url.Action("Close","Admin/Projects")">
+            @Html.HiddenFor(hd => hd.Id)
+
+            <div class="form-group">
+                @Html.Label("", Model.ProjectName, new { @class = "control-label" })
+
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(l => l.ActualEndingDate, new { @class = "control-label" })
+
+                @Html.TextBox("ActualEndDate", Model.ActualEndingDate.Day+"/"+ (Model.ActualEndingDate.Month<10?"0" + Model.ActualEndingDate.Month.ToString(): Model.ActualEndingDate.Month.ToString())+ "/" + Model.ActualEndingDate.Year,  new { @class = "form-control", @id = "ActualEndDate",@readonly="readonly" })
+
+                <span asp-validation-for="ActualEndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Close" class="btn btn-default" />
+                <!---onclick="return submitForm()"-->
+
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Action("Index","Admin/Projects")">Back to List</a>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+           
+            //$("#ActualEndDate").datepicker({ dateFormat: 'dd/mm/yy' });
+          
+
+
+
+
+
+        });
+
+
+
+    </script>
+}

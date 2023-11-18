@@ -1,0 +1,15 @@
+﻿@using (Html.BeginForm("Comment",
+                 "AddAttachment",
+                 FormMethod.Post,
+                 new { enctype = "multipart/form-data" }))
+
+    {
+        <div class="form-group">
+            @Html.Label("", "Attachment", new { @class = "control-label" })
+            <input type="file" name="file" id="file" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Upload attachment" />
+        </div>
+        <input type="text" value="@ViewBag.UploadedFileName" />
+    }

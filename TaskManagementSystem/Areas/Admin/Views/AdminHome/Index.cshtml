@@ -1,0 +1,12 @@
+﻿@using Microsoft.Extensions.Localization
+@using TaskManagementSystem.Areas.Admin.Controllers
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@inject IStringLocalizer<AdminHomeController> AdminHomeControllerLocalizer
+@*@inject IViewLocalizer Localizer*@
+    <h2>@AdminHomeControllerLocalizer["HalaAdmin"]</h2>
+

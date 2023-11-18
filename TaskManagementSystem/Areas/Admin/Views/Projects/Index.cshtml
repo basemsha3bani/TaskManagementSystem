@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TaskManagementSystem.Areas.Admin.Models.Project>
+
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Projects</h2>
+
+<p>
+    <a id="arojectCreate" href="javascript:;" onclick="window.location.href='@Url.Action("Create","Admin/Projects")'">Create new</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndingDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ActualEndingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                @Html.Label("", item.StartingDate.ToString("dd/MM/yyyy"))
+            </td>
+            <td>
+                @Html.Label("", item.EndingDate.ToString("dd/MM/yyyy"))
+            </td>
+            @if (item.Closed)
+            {
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActualEndingDate)
+                </td>
+            }
+            <td></td>
+            @if (item.Tasks != null)
+            {
+                @if (item.Tasks.Where(w => w.Comments.Count > 0).ToList().Count == 0)
+                {
+                    string EditPath = Url.Action("Edit", "Admin/Projects").ToString() + "?Id=" + item.Id;
+                    <td>
+                        <a href='@EditPath' class="btn btn-default">Edit</a>
+                    </td>
+                }
+
+                @if (item.Tasks.Count>0 &&item.Tasks.Where(w => !w.Closed).ToList().Count == 0)
+                {
+                    string ClosePath = Url.Action("CloseProject", "Admin/Projects").ToString() + "?ProjectId=" + item.Id;
+                    <td>
+                        <a href='@ClosePath' class="btn btn-default">Close</a>
+                    </td>
+                }
+
+
+            }
+
+
+
+
+                @{
+                    string TasksPath = Url.Action("ListByProject", "Tasks").ToString() + "?ProjectId=" + item.Id;
+                }
+                <td>
+                    <a href="@TasksPath" class="btn btn-default">Tasks</a>
+                </td>
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>

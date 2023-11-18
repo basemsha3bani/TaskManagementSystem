@@ -1,0 +1,121 @@
+﻿@using TaskManagementSystem.Models.ViewModels
+@model TaskViewModel
+
+
+@{
+
+    string BackLink = @Url.Action("ListByProject", "Tasks", new { ProjectId = Model.Project_Id });
+    ViewData["Title"] = "View";
+    if(ViewBag.isAdmin =="False")
+    {
+        Layout = "~/Areas/Employee/Views/Shared/EmployeeLayout.cshtml";
+        BackLink = @Url.Action("ListByEmployee", "Tasks");
+    }
+    else
+    {
+        Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    }
+
+
+}
+
+<h2>View Task Project </h2>
+
+
+<hr />
+<div class="text-danger">@ViewBag.AddCommentExceptionMessage</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="formCreateTask" method="get">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.TaskName, new { @class = "control-label" }):
+                @Html.Label("", Model.TaskName, new { style = "font-weight:normal" })
+                @Html.LabelFor(l => l.StartDate, new { @class = "control-label" }):
+                @Html.Label("", Model.StartDate, new { style = "font-weight:normal" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.EndDate, new { @class = "control-label" }):
+                @Html.Label("", Model.EndDate, new { style = "font-weight:normal" })
+
+            </div>
+
+            <div class="form-group">
+
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Comments", new { @class = "control-label" })
+            </div>
+            <div class="form-group">
+                <div style="border:dashed;width:100%">
+                    <ol>
+                        @foreach (CommentViewModel c in Model.Comments)
+                        {
+                            <li>
+                                @c.CommentEmployeeId    @c.CommentDate.ToString("dd/MM/yyyy HH:mm:ss")
+                                <ul style="list-style:none">
+                                    <li>@c.Comments  </li>
+                                </ul>
+                                <ul style="list-style:none">
+                                    <li><a href="@String.Concat(Url.Action("ViewAttachment","Comment"),"?CommentId="+c.Id)">@c.CommentAttachment</a> </li>
+                                </ul>
+                            </li>
+                        }
+                    </ol>
+                </div>
+            </div>
+            @{
+                CommentViewModel CommentVm = new CommentViewModel { CommentTaskId = Model.Id };
+            }
+
+
+
+        </form>
+        <div class="form-group">
+            @Html.Partial("AddComment", CommentVm)
+            <!---onclick="return submitForm()"-->
+
+
+        </div>
+
+       
+        
+</div>
+</div>
+
+<div class="row">
+    <a href="@BackLink">Back to List</a>
+</div>
+
+@section Scripts {
+
+   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+       $(function () {
+           $("#StartingDate").datepicker({ dateFormat: 'dd/mm/yy' });
+           $("#EndingDate").datepicker({ dateFormat: 'dd/mm/yy' });
+           $('#cbForwardTask').change(function () {
+           var display = 'none'
+             
+               $("#hdnEmployee").val("")
+               if (this.checked) {
+                   display = 'block';
+                   $("#hdnEmployee").val($("#ddlEmployee").val())
+               }
+               $("#divForwardTask").css("display", display);
+               })
+                @*var formAction = "@Url.Action("CreateProject","Admin/Projects")"
+        $("#formCreateProject").attr("action", formAction);*@
+                /**/
+
+
+
+
+            });
+           
+
+                </script>
+                }

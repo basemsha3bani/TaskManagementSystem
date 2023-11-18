@@ -1,0 +1,77 @@
+﻿@model TaskManagementSystem.Areas.Admin.ViewModel.ProjectViewModel
+
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create Project </h2>
+
+
+<hr />
+<div class="text-danger">@Html.ValidationSummary()</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="formCreateProject" method="post" action="@Url.Action("CreateProject","Admin/Projects")">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.ProjectName, new { @class = "control-label" })
+                @Html.TextBoxFor(l => l.ProjectName, new { @class = "form-control" })
+               @Html.ValidationMessageFor(l => l.ProjectName,"", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.StartingDate, new { @class = "control-label" })
+
+                @Html.TextBoxFor(l => l.StartingDate, new { @class = "form-control" })
+                <span asp-validation-for="StartingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(l => l.EndingDate, new { @class = "control-label" })
+                @Html.TextBoxFor(l => l.EndingDate, new { @class = "form-control" })
+
+                <span asp-validation-for="EndingDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+                       <!---onclick="return submitForm()"--> 
+               
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Action("Index","Admin/Projects")">Back to List</a>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#StartingDate").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#EndingDate").datepicker({ dateFormat: 'dd/mm/yy' });
+            @*var formAction = "@Url.Action("CreateProject","Admin/Projects")"
+            $("#formCreateProject").attr("action", formAction);*@
+            
+
+       
+
+        });
+        function submitForm() {
+
+
+           
+            $("#formCreateProject").submit();
+
+            return true
+
+        }
+
+    </script>
+}

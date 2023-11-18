@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TaskManagementSystem.Areas.Admin.ViewModel.ProjectViewModel>
+
+
+
+<h2>Projects</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndingDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ActualEndingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                @Html.Label("", item.StartingDate)
+            </td>
+            <td>
+                @Html.Label("", item.EndingDate)
+            </td>
+            @if (item.Closed)
+            {
+                @if (item.Late)
+                {
+                    <td style="color:red">
+                        @Html.DisplayFor(modelItem => item.ActualEndingDate)
+                    </td>
+                }
+                else
+                {
+                    <td style="color:green">
+                        @Html.DisplayFor(modelItem => item.ActualEndingDate)
+                    </td>
+               }
+                
+            }
+
+
+
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>

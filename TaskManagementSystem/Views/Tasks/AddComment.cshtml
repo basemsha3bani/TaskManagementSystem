@@ -1,0 +1,32 @@
+﻿@model TaskManagementSystem.Models.ViewModels.CommentViewModel
+
+
+
+<h2>Add Comment </h2>
+
+
+<form method="post" action="@Url.Action("AddComment","Comment")" enctype="multipart/form-data">
+    @Html.HiddenFor(hd => hd.CommentTaskId)
+    <div class="form-group">
+        @Html.TextAreaFor(tf => tf.Comments)
+        @Html.ValidationMessageFor(vf => vf.Comments, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Attachment", new { @class = "control-label" })
+        <input type="file" name="file" id="file" />
+    </div>
+    <div class="form-group">
+        @Html.Label("", "Forward Task", new { @class = "control-label" })
+        @Html.CheckBox("cbForwardTask", new { id = "cbForwardTask" })
+        <div id="divForwardTask" style="display:none">
+            @Html.Label("", "Employee", new { @class = "control-label" })
+            @Html.DropDownList("ddlEmployee", (SelectList)ViewBag.EmployeeList, new { @id = "ddlEmployee", @onchange = "$('#hdnEmployee').val($(this).val())", @class = "form-control" })
+        </div>
+    </div>
+
+    <input type="hidden" id = "hdnEmployee" name="hdnEmployee" value="" />
+    
+    <div class="form-group">
+        <input type="submit" value="add comment"  />
+    </div>
+</form>

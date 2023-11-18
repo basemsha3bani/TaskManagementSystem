@@ -1,0 +1,104 @@
+﻿@model TaskManagementSystem.Areas.Admin.ViewModel.ProjectViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<hr />
+<div class="text-danger">@Html.ValidationSummary()</div>
+<input value="@Model.Id" class="form-control" type="hidden" id="hdnProjectId" />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Project:@Model.ProjectName
+            </th>
+            <th>
+                Starting Date:@Model.StartingDate
+            </th>
+            <th>
+                Ending Date:@Model.EndingDate
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <a href="javascript:;" onclick="window.location.href='@Url.Action("Create","Tasks")'+'?ProjectId='+$('#hdnProjectId').val()">Create new task</a>
+
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Task name
+            </th>
+            <th>
+                Starting date
+            </th>
+            <th>
+                Ending date
+            </th>
+
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tasks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaskName)
+                </td>
+
+                <td>
+                    @Html.Label("", item.StartDate.ToString("dd/MM/yyyy"))
+                </td>
+
+
+                <td>
+                    @Html.Label("", ((DateTime)item.EndDate).ToString("dd/MM/yyyy"))
+                </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#StartingDate").datepicker({ dateFormat: 'dd-mm-yy' });
+            $("#EndingDate").datepicker({ dateFormat: 'dd-mm-yy' });
+            var formAction = "@Url.Action("EditProject", "Admin/Projects")"
+            $("#formEditProject").attr("action", formAction)
+
+        });
+        function submitForm() {
+
+
+            $("#formEditProject").submit();
+
+            return true
+
+        }
+
+    </script>
+}

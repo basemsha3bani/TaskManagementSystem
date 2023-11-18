@@ -1,0 +1,65 @@
+﻿@model TaskManagementSystem.Models.ViewModels.CloseTaskViewModel
+
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Close Task </h2>
+
+
+<hr />
+<div class="text-danger">@Html.ValidationSummary()</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="formCloseTask" method="post" action="@Url.Action("Close","Tasks")">
+            @Html.HiddenFor(hd => hd.TaskId)
+            @Html.HiddenFor(hd => hd.Project_Id)
+            <div class="form-group">
+                @Html.Label("", Model.TaskName, new { @class = "control-label" })
+
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(l => l.ActualEndDate, new { @class = "control-label" })
+
+                @Html.TextBox("ActualEndDate", "", new { @class = "form-control", @id = "ActualEndDate" })
+
+                <span asp-validation-for="ActualEndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="@CloseTaskLocalizer["Close"].Value" class="btn btn-default" />
+                <!---onclick="return submitForm()"-->
+
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="@Url.Action("ListByProject","Tasks",new { ProjectId = Model.Project_Id })">Back to List</a>
+</div>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#ActualEndDate").datepicker({ dateFormat: 'dd/mm/yy' });
+
+
+
+
+
+        });
+
+
+    </script>
+}
